@@ -42,22 +42,57 @@ const getNavigation = (userRole) => {
 
 // Alternative: Simple role-based navigation
 const getNavigationByRoleId = (roleId) => {
-  // Role IDs: 1=admin, 2=hr, 3=manager, 4=employee
-  const allNavigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, roles: [1, 2, 3, 4] },
-    { name: 'Employees', href: '/employees', icon: UsersIcon, roles: [1, 2] },
-    { name: 'Attendance', href: '/attendances', icon: CalendarIcon, roles: [1, 2, 3, 4] },
-    { name: 'Leaves', href: '/leaves', icon: DocumentTextIcon, roles: [1, 2, 3, 4] },
-    { name: 'Payroll', href: '/payrolls', icon: CurrencyDollarIcon, roles: [1, 2, 3, 4] },
-    { name: 'Departments', href: '/departments', icon: BuildingOfficeIcon, roles: [1, 2] },
-    { name: 'Reports', href: '/reports', icon: ChartBarIcon, roles: [1, 2, 3] },
-    { name: 'Calendar', href: '/calendar', icon: CalendarDaysIcon, roles: [1, 2, 3, 4] },
-    { name: 'Bulk Operations', href: '/bulk-attendance', icon: ClipboardDocumentListIcon, roles: [1, 2] },
-    { name: 'Tasks', href: '/tasks', icon: ClipboardDocumentListIcon, roles: [1, 2, 3] },
-    { name: 'My Tasks', href: '/my-tasks', icon: ClipboardDocumentListIcon, roles: [4] },
-  ];
-
-  return allNavigation.filter(item => item.roles.includes(roleId));
+  switch(roleId) {
+    case 1: // Admin
+      return [
+        { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+        { name: 'Employees', href: '/employees', icon: UsersIcon },
+        { name: 'Departments', href: '/departments', icon: BuildingOfficeIcon },
+        { name: 'Reports', href: '/reports', icon: ChartBarIcon },
+        { name: 'Calendar', href: '/calendar', icon: CalendarDaysIcon },
+        { name: 'Bulk Operations', href: '/bulk-attendance', icon: ClipboardDocumentListIcon },
+        { name: 'Tasks', href: '/tasks', icon: ClipboardDocumentListIcon },
+        { name: 'Attendance', href: '/attendances', icon: CalendarIcon },
+        { name: 'Leaves', href: '/leaves', icon: DocumentTextIcon },
+        { name: 'Payroll', href: '/payrolls', icon: CurrencyDollarIcon },
+      ];
+    case 2: // HR
+      return [
+        { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+        { name: 'Employees', href: '/employees', icon: UsersIcon },
+        { name: 'Departments', href: '/departments', icon: BuildingOfficeIcon },
+        { name: 'Reports', href: '/reports', icon: ChartBarIcon },
+        { name: 'Calendar', href: '/calendar', icon: CalendarDaysIcon },
+        { name: 'Bulk Operations', href: '/bulk-attendance', icon: ClipboardDocumentListIcon },
+        { name: 'Tasks', href: '/tasks', icon: ClipboardDocumentListIcon },
+        { name: 'Attendance', href: '/attendances', icon: CalendarIcon },
+        { name: 'Leaves', href: '/leaves', icon: DocumentTextIcon },
+        { name: 'Payroll', href: '/payrolls', icon: CurrencyDollarIcon },
+      ];
+    case 3: // Manager
+      return [
+        { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+        { name: 'Reports', href: '/reports', icon: ChartBarIcon },
+        { name: 'Calendar', href: '/calendar', icon: CalendarDaysIcon },
+        { name: 'Tasks', href: '/tasks', icon: ClipboardDocumentListIcon },
+        { name: 'Attendance', href: '/attendances', icon: CalendarIcon },
+        { name: 'Leaves', href: '/leaves', icon: DocumentTextIcon },
+        { name: 'Payroll', href: '/payrolls', icon: CurrencyDollarIcon },
+      ];
+    case 4: // Employee
+      return [
+        { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+        { name: 'My Tasks', href: '/my-tasks', icon: ClipboardDocumentListIcon },
+        { name: 'My Attendance', href: '/my-attendance', icon: CalendarIcon },
+        { name: 'Leaves', href: '/leaves', icon: DocumentTextIcon },
+        { name: 'Payroll', href: '/payrolls', icon: CurrencyDollarIcon },
+        { name: 'Calendar', href: '/calendar', icon: CalendarDaysIcon },
+      ];
+    default:
+      return [
+        { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+      ];
+  }
 };
 
 const Sidebar = ({ open, setOpen }) => {
@@ -65,10 +100,10 @@ const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
 
   // Get navigation based on user role
-  const navigation = user?.role_id 
+  const navigation = user?.role_id
     ? getNavigationByRoleId(Number(user.role_id)) 
-    : getNavigation(user?.role?.name || 'employee');
-  
+    : getNavigation("employee");
+
   // Get role name for display
   const getRoleName = () => {
     if (user?.role?.name) return user.role.name;
@@ -183,12 +218,10 @@ const Sidebar = ({ open, setOpen }) => {
                 {/* Logo Option 2: Image Logo - uncomment to use */}
                 
                 <img 
-  src="/1.png"
-  alt="HRM Logo"
-  className="h-10 w-30 object-contain"
-/>
-
-               
+                  src="/1.png"
+                  alt="HRM Logo"
+                  className="h-10 w-30 object-contain"
+                />               
                 
                 {/* Logo Option 3: SVG Icon with Text */}
                 {/* 
