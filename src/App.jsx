@@ -53,7 +53,7 @@ const RoleProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   // যদি role restriction থাকে এবং user এর role allowed না হয়
-  if (allowedRoles.length > 0 && !allowedRoles.includes(user.role_id)) {
+  if (allowedRoles.length > 0 && !allowedRoles.includes(Number(user.role_id))) {
     return <Navigate to="/dashboard" replace />;
   }
 
