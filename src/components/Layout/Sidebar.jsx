@@ -65,9 +65,9 @@ const Sidebar = ({ open, setOpen }) => {
   const location = useLocation();
 
   // Get navigation based on user role
-  const navigation = user?.role_id 
-    ? getNavigationByRoleId(user.role_id) 
-    : getNavigation(user?.role?.name || 'employee');
+  const navigation = user?.role_id
+  ? getNavigationByRoleId(user.role_id)
+  : getNavigation("employee"); // fallback always থাকবে
 
   // Get role name for display
   const getRoleName = () => {
